@@ -1,0 +1,38 @@
+[Unit]
+Description=Felicity BMS MQTT Publisher
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=alex
+Group=alex
+WorkingDirectory=/home/alex/felicity
+Environment=PATH=/home/alex/.local/bin:/home/alex/felicity/.venv/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/alex/.local/bin/uv run main.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Environment variables loaded from .env file
+# Set the following in .env:
+# NUM_BATTERIES=2          # Number of batteries (optional, defaults to 1)
+# MQTT_HOST=homeassistant.fritz.box
+# MQTT_USER=mqtt_user
+# MQTT_PASSWORD=mqtt_password
+# BMS_DEVICE=/dev/ttyUSB0  # optional (shared by all batteries)
+# BMS_BAUDRATE=9600        # optional
+# BMS_CLIENT_ID_1=1        # Client ID for battery 1
+# BMS_CLIENT_ID_2=2        # Client ID for battery 2
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/alex/felicity /home/alex/.cache
+DeviceAllow=/dev/ttyUSB0 rw
+
+[Install]
+WantedBy=multi-user.target
