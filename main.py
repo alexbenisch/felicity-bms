@@ -284,7 +284,7 @@ class FelicityBMSReader:
         if not self.mqtt_client or not data:
             return
         
-        base_topic = f"felicity/battery{self.battery_id}/bms"
+        base_topic = f"homeassistant/felicity/battery{self.battery_id}"
         
         # Publish individual values
         for key, value in data.items():
